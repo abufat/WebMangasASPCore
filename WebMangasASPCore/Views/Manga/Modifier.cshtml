@@ -1,0 +1,110 @@
+﻿
+@model WebMangasAspCore.Models.Metier.Manga;
+@{
+	ViewBag.Title = "Modifier";
+	Layout = "~/Views/Shared/_LayoutManga.cshtml";
+}
+<h2>Modifier un manga</h2>
+@if (Model != null)
+{
+	@using (Html.BeginForm("Modifier", "Manga", FormMethod.Post))
+	{
+		@Html.AntiForgeryToken()
+
+
+<div class="card col-8 mx-auto mt-5">
+	<div class="card-body">
+		<h3 class="card-title">Modifier un Manga</h3>
+		<div class="form-horizontal">
+			<hr />
+			@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+			<!-- Id Manga -->
+			<div class="input-group mb-3">
+				<div class="input-group-prepend mr-2 col-lg-4 col-xl-3">
+					<span class="input-group-text" id="id-manga-input">Id Manga : </span>
+				</div>
+				@Html.EditorFor(model => model.Id_manga, new
+					{
+						htmlAttributes = new
+						{
+							@class = "form-control",
+							@disabled
+									= ""
+						}
+					})
+				@Html.ValidationMessageFor(model => model.Id_manga, "", new
+					{
+						@class =
+									"text-danger"
+					})
+				<input name="Id_manga" type="HIDDEN" value=@(@Model.Id_manga) id="Id_manga"
+					   class="form-control"
+					   aria-describedby="id-manga-input" />
+			</div>
+			<!-- Dessinateur -->
+			<div class="input-group mb-3">
+				<div class="input-group-prepend mr-2 col-lg-4 col-xl-3">
+					<span class="input-group-text" id="scenariste-input">
+						Dessinateur :
+					</span>
+				</div>
+				<input name="Id_dessinateur" type="text" class="form-control"
+					   value=@(@Model.Id_dessinateur) id="Id_dessinateur" />
+			</div>
+			<!-- Scénariste -->
+			<div class="input-group mb-3">
+				<div class="input-group-prepend mr-2 col-lg-4 col-xl-3">
+					<span class="input-group-text" id="scenariste-input">
+						Scénariste :
+					</span>
+				</div>
+				<input name="Id_scenariste" type="text" class="form-control"
+					   value="@(@Model.Id_scenariste)" id="Id_scenariste" />
+			</div>
+			<!-- Prix -->
+			<div class="input-group mb-3">
+				<div class="input-group-prepend mr-2 col-lg-4 col-xl-3">
+					<span class="input-group-text" id="prix-input">Prix : </span>
+				</div>
+				<input name="Prix" type="text" class="form-control" value=@(@Model.Prix)
+					   id="Prix" />
+			</div>
+			<!-- Titre Manga -->
+			<div class="input-group mb-3">
+				<div class="input-group-prepend mr-2 col-lg-4 col-xl-3">
+					<span class="input-group-text" id="titre-input">
+						Titre du manga :
+					</span>
+				</div>
+				<input name="Titre" type="text" class="form-control" value="@(@Model.Titre)"
+					   id="Titre" />
+			</div>
+			<!-- Couverture Manga -->
+			<div class="input-group mb-3">
+				<div class="input-group-prepend mr-2 col-lg-4 col-xl-3">
+					<span class="input-group-text" id="titre-input">Couverture : </span>
+				</div>
+				<input name="Couverture" type="text" class="form-control"
+					   value="@(@Model.Couverture)" id="Couverture" />
+			</div>
+			<!-- Genre Manga -->
+			<div class="input-group mb-3">
+				<div class="input-group-prepend mr-2 col-lg-4 col-xl-3">
+					<span class="input-group-text" id="titre-input">
+						Genre du manga :
+					</span>
+				</div>
+				<input name="Id_genre" type="text" class="form-control"
+					   value=@(@Model.Id_genre) id="ID Genre" />
+			</div>
+			<div class="form-group">
+				<div class="col-md-offset-2 col-md-10">
+					<input type="submit" value="Enregistrer" class="btn btn-primary" />
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+	}
+}
