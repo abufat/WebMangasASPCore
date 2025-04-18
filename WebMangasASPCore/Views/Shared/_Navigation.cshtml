@@ -8,13 +8,24 @@
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						Fichier
+						Authentification
 					</a>
 					<ul class="dropdown-menu">
-						<li><a class="dropdown-item" asp-area="" asp-controller="Connexion" asp-action="Index">Connexion</a></li>
-						<li><a class="dropdown-item" asp-area="" asp-controller="Connexion" asp-action="Logout">Déconnexion</a></li>
+						@if (Context.Session.GetString("login") == null)
+						{
+							<li><a class="dropdown-item" asp-area="" asp-controller="Connexion" asp-action="Index">Connexion</a></li>
+
+						}
+						else
+						{
+							<li><a class="dropdown-item">Bienvenue @Context.Session.GetString("login")</a></li>
+							<li><a class="dropdown-item" asp-controller="Connexion" asp-action="Logout">Déconnexion</a></li>
+						}
+
 					</ul>
 				</li>
+				@if (Context.Session.GetString("login") != null)
+				{
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 						Mangas
@@ -23,24 +34,26 @@
 						<li class="dropdown-header">Mangas</li>
 						<li><hr class="dropdown-divider"></li>
 						<li><a class="dropdown-item" asp-area="" asp-controller="Manga" asp-action="Index">Liste des mangas</a></li>
-						<li><a class="dropdown-item" asp-area="" asp-controller="Manga" asp-action="Modifier">Modifier Manga</a></li>
+						<li><a class="dropdown-item" asp-area="" asp-controller="Manga" asp-action="Rechercher">Recherche Manga</a>
+							</li>
 					</ul>
 				</li>
+					
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-					Gérer
+							Gestion des mangas
 					</a>
 					<ul class="dropdown-menu">
 						<li class="dropdown-header">Gestion</li>
 						<li><hr class="dropdown-divider"></li>
 						<li><a class="dropdown-item" asp-area="" asp-controller="Manga" asp-action="Ajout">Ajouter Manga</a></li>
 						<li><a class="dropdown-item" asp-area="" asp-controller="Manga" asp-action="Modifier">Modifier Manga</a></li>
-						<li><hr class="dropdown-divider"></li>
-						<li><a class="dropdown-header">Produits</a></li>
-						<li><hr class="dropdown-divider"></li>
-						<li><a class="dropdown-item" asp-area="" asp-controller="Produit" asp-action="Augmenter">Augmenter Prix</a></li>
+						
 					</ul>
 				</li>
+				}
+		
+		
 			</ul>
 		</div>
 	</div>

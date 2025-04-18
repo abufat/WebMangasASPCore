@@ -1,0 +1,62 @@
+﻿@using System.Data
+@{
+    ViewData["Title"] = "Résultats de la recherche";
+    Layout = "~/Views/Shared/_LayoutManga.cshtml";
+    var resultats = ViewBag.Resultats as System.Data.DataTable;
+}
+
+<h2>Résultats de la recherche</h2>
+
+@if (resultats != null && resultats.Rows.Count > 0)
+{
+    <table class="table table-bordered table-striped table-responsive">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Genre</th>
+                <th>Dessinateur</th>
+                <th>Scénariste</th>
+                <th>Titre</th>
+                <th>Prix</th>
+                <th>Couverture</th>
+                <th style="width:80px;">Modifier</th>
+                <th style="width:80px;">Supprimer</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (DataRow dataRow in resultats.Rows)
+            {
+                <tr>
+                    @for (int i = 0; i < dataRow.ItemArray.Length; i++)
+                    {
+                        if (i == dataRow.ItemArray.Length - 1)
+                        {
+                            <td>
+                                <img src="~/images/@dataRow[i]" width="100" />
+                            </td>
+                        }
+                        else
+                        {
+                            <td>@dataRow[i].ToString()</td>
+                        }
+                    }
+
+                    <td class="text-center">
+                        <a href="@Url.Action("Modifier", "Manga", new { id = dataRow[0] })" class="btn btn-default btn-primary">
+                            <i class="bi bi-pencil-fill"></i>
+                        </a>
+                    </td>
+                    <td class="text-center">
+                        <a href="@Url.Action("Supprimer", "Manga", new { id = dataRow[0] })" class="btn btn-default btn-primary">
+                            <i class="bi bi-trash-fill"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Aucun résultat trouvé.</p>
+}

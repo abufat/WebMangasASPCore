@@ -91,12 +91,47 @@ namespace WebMangasAspCore.Models.Dao
             try
             {
                 DBInterface.Execute_Transaction(requete);
-
             } 
             catch (MonException erreur) 
             {
                 throw erreur;
             }
+        }
+        public static DataTable RechercherMangas(string titre, string recherche)
+        {
+            string sql = @"
+		    SELECT 
+			    manga.id_manga AS ID,
+			    genre.lib_genre AS Genre,
+			    dessinateur.nom_dessinateur AS Dessinateur,
+			    scenariste.nom_scenariste AS Scénariste,
+			    manga.titre AS Titre,
+			    manga.prix AS Prix,
+			    manga.couverture AS Couverture
+		    FROM manga
+		    JOIN genre ON manga.id_genre = genre.id_genre
+		    JOIN dessinateur ON manga.id_dessinateur = dessinateur.id_dessinateur
+		    JOIN scenariste ON manga.id_scenariste = scenariste.id_scenariste
+		    WHERE 1 = 1
+	    ";
+
+            if (!string.IsNullOrEmpty(titre))
+                sql += "AND titre = '" + titre.Replace("'", "' '") + "' ";
+
+            if (!string.IsNullOrEmpty(recherche))
+            {
+                sql += " AND titre LIKE '%" + recherche.Replace("'", "''") + "%'";
+            }
+
+
+            Serreurs er = new Serreurs("Erreur Recherche", "ServiceManga.RechercherMangas()");
+            return DBInterface.Lecture(sql, er);
+        }
+        public static DataTable GetTousLesTitres()
+        {
+            string sql = "SELECT DISTINCT titre FROM Manga ORDER BY titre";
+            Serreurs er = new Serreurs("Erreur titres", "ServiceManga.GetTousLesTitres()");
+            return DBInterface.Lecture(sql, er);
         }
     }
 }

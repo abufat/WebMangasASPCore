@@ -2,6 +2,7 @@
 using WebMangasASPCore.Models.MesExceptions;
 using WebMangasAspCore.Models.Dao;
 using WebMangasAspCore.Models.Metier;
+using System.Data;
 
 
 namespace WebMangasASPCore.Controllers
@@ -49,6 +50,22 @@ namespace WebMangasASPCore.Controllers
             {
                 return NotFound();
             }
+        }
+        [HttpGet]
+        public IActionResult Rechercher()
+        {
+            DataTable dt = ServiceManga.GetTousLesTitres();
+            ViewBag.Titres = dt;
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Resultats(string titreChoisi, string rechercheLibre)
+        {
+            DataTable resultats = ServiceManga.RechercherMangas(titreChoisi, rechercheLibre);
+            ViewBag.Resultats = resultats;
+            ViewBag.Titres = ServiceManga.GetTousLesTitres();
+            return View();
         }
 
     }

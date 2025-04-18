@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using WebMangasASPCore.Models.MesExceptions;
 using WebMangasASPCore.Models.Metier;
 using WebMangasASPCore.Models.Utilitaires;
@@ -8,10 +9,16 @@ namespace WebMangasASPCore.Controllers
 {
 	public class ConnexionController : Controller
 	{
+		public IActionResult Index()
+		{
+			return View();
+		}
+
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public IActionResult Controle()
 		{
+
 			try
 			{
 				// on récupère les données du formulaire
@@ -39,7 +46,12 @@ namespace WebMangasASPCore.Controllers
 								ModelState.AddModelError("Erreur", "Erreur lors du contrôle du mot de passe pour : " + login);
 								return RedirectToAction("Index", "Connexion");
 							}
-                      
+							//
+							HttpContext.Session.SetString("login", unUtilisateur.NomUtil);
+                            HttpContext.Session.SetString("role", unUtilisateur.Role);
+
+							return RedirectToAction("Index", "Home");
+
 
                         }
 						catch (Exception e)
@@ -67,9 +79,10 @@ namespace WebMangasASPCore.Controllers
 				return RedirectToAction("Index", "Connexion");
 			}
 		}
-		public IActionResult Index()
-		{
-			return View();
-		}
-	}
+        public IActionResult Session()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Home");
+        }
+    }
 }

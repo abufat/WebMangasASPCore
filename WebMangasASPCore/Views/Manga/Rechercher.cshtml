@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Rechercher un manga";
+    Layout = "~/Views/Shared/_LayoutManga.cshtml";
+    var titres = ViewBag.Titres as System.Data.DataTable;
+}
+
+<h2>Rechercher un manga</h2>
+
+<form asp-action="Resultats" method="post">
+    <div class="form-group">
+        <label for="titreChoisi">Titre :</label>
+        <select id="titreChoisi" name="titreChoisi" class="form-control">
+            <option value="">Recherche libre</option>
+            @foreach (System.Data.DataRow row in titres.Rows)
+            {
+                <option value="@row[0]">@row[0]</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="rechercheLibre">Recherche libre :</label>
+        <input type="text" id="rechercheLibre" name="rechercheLibre" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-2">Rechercher</button>
+</form>
